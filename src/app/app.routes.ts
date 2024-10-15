@@ -1,17 +1,16 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { ProductsComponent } from './products/products.component';
+import { ProductDetailComponent } from './products/product-detail/product-detail.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { AppComponent } from './app.component';
 import { authGuard } from './auth.guard';
-import { HomeComponent } from './home/home.component';
+import { ProductComponent } from './products/products.component';
 
 // Todo: lazy load the components
 export const routes: Routes = [
   {
     path: '',
-    title: 'Home',
-    component: HomeComponent,
+    title: 'Products',
+    component: ProductComponent,
     canActivate: [authGuard],
   },
   {
@@ -21,8 +20,8 @@ export const routes: Routes = [
   },
   {
     path: 'products/:id',
-    title: 'Product',
-    component: ProductsComponent,
+    title: 'Product detail',
+    component: ProductDetailComponent,
     canActivate: [authGuard],
   },
   { path: '**', component: NotFoundComponent },

@@ -1,18 +1,29 @@
-@if (product()) {
-<div class="product">
-  <div>
-    <img
-      class="product__image"
-      src="{{ product()?.image }}"
-      alt="{{ product()?.title }}"
-    />
-  </div>
-  <div>
-    <h1 class="product__title">{{ product()?.title }}</h1>
-    <p class="product__description">{{ product()?.description }}</p>
-    <button class="product__button" (click)="addToCart()" mat-flat-button>
-      Add to cart
-    </button>
-  </div>
+<h2>Products</h2>
+
+<div class="filter">
+  Filter: @for (category of categories(); track category) {
+  <button
+    [class.active]="category === currentFilter"
+    (click)="filter(category)"
+    mat-flat-button
+  >
+    {{ category }}
+  </button>
+  }
+  <button (click)="resetFilter()" mat-stroked-button>Reset filter</button>
 </div>
-}
+<div class="products-container">
+  @for (product of products(); track 'id') {
+  <mat-card class="product" appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>{{ product.title }}</mat-card-title>
+      <mat-card-subtitle class="product__description">{{
+        product.description
+      }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions>
+      <a mat-button href="/products/{{ product.id }}">view product</a>
+    </mat-card-actions>
+  </mat-card>
+  }
+</div>

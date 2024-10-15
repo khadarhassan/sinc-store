@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { NavComponent } from './nav/nav.component';
@@ -13,7 +13,7 @@ import { SessionStorageService } from './session-storage.service';
 })
 export class AppComponent {
   title = 'sinc-store';
-
+  //loggedInn = signal<boolean>(inject(SessionStorageService).getSession());
   constructor(private sessionStorageService: SessionStorageService) {}
 
   isLoggedIn() {

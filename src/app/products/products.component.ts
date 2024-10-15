@@ -1,38 +1,71 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ProductsService } from '../products.service';
 import { Product } from '../types';
-import { map } from 'rxjs/operators';
+import { ProductsService } from '../products.service';
+import { map } from 'rxjs';
+import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-products',
+  selector: 'app-product',
   standalone: true,
-  imports: [MatButtonModule],
+  imports: [MatCardModule, MatButtonModule],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
 })
-export class ProductsComponent implements OnInit {
-  id = signal('');
-  product = signal<Product | null>(null);
+export class ProductComponent implements OnInit {
+  products = signal<Product[]>([]);
+  initalProducts = signal<Product[]>([]);
+  currentFilter = '';
+  filterOptions = [
+    "men's clothing",
+    'jewelery',
+    'electronics',
+    "women's clothing",
+  ];
+
+  categories = signal([
+    "men's clothing",
+    'jewelery',
+    'electronics',
+    "women's clothing",
+  ]);
 
   constructor(
-    private route: ActivatedRoute,
-    private productsService: ProductsService
+    private productService: ProductsService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.id.set(this.route.snapshot.paramMap.get('id') || '');
+    const filterQuery = this.route.snapshot.queryParamMap.get('filter');
 
-    this.productsService
-      .getProductById(this.id())
+    this.productService
+      .getAllProducts()
       .pipe(
-        map((data) => {
-          this.product.set(data);
+        map((data: Product[]) => {
+          this.initalProducts.set(data);
+          if (filterQuery && this.filterOptions.includes(filterQuery)) {
+            this.products.set(
+              data.filter((product) => product.category === filterQuery)
+            );
+            this.currentFilter = filterQuery;
+          } else {
+            this.products.set(data);
+          }
         })
       )
       .subscribe();
   }
 
-  addToCart() {}
+  filter(category: string) {
+    this.currentFilter = category;
+    this.products.set(
+      this.initalProducts().filter((product) => product.category === category)
+    );
+  }
+
+  resetFilter() {
+    this.currentFilter = '';
+    this.products.set(this.initalProducts());
+  }
 }

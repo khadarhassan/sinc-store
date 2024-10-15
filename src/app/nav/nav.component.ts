@@ -11,7 +11,7 @@ import { AuthService } from '../auth.service';
   styleUrl: './nav.component.scss',
 })
 export class NavComponent {
-  routes = routes;
+  routes = [{ path: '', title: 'Products' }];
 
   constructor(private authService: AuthService) {}
 

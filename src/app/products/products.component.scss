@@ -1,19 +1,23 @@
-.product {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+.filter {
+  display: flex;
   align-items: center;
   gap: 1rem;
-  width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
+  margin-bottom: 2rem;
+}
 
-  &__image {
-    width: 100%;
-    max-width: 500px;
-    object-fit: contain;
-  }
+.active {
+  border: 3px solid red;
+}
 
-  &__button {
-    margin: 1rem 0;
+.products-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.product {
+  &__description {
+    font-size: 0.875rem;
+    font-weight: normal;
   }
 }
