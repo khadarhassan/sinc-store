@@ -1,0 +1,9 @@
+<header>
+  <nav>
+    @for (route of routes; track route.path) {
+    <a href="{{ route.path }}">{{ route.title }}</a>
+    }
+
+    <button (click)="signOut()" mat-flat-button>Logout</button>
+  </nav>
+</header>
